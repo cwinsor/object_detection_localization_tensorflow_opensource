@@ -17,9 +17,9 @@ paperspace
 
 
 -------------------------------------------
-INSTALLATION
+INSTALLATION (each time marked "********************")
 https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#tensorflow-installation
---->with specific notes below <---
+with additional specific notes below
 
 If existing environment...
 
@@ -27,6 +27,7 @@ If existing environment...
 Create new environment...
 create conda env, install TensorFlow:
   conda create -n tensorflow pip python=3.9
+
   conda activate tensorflow   *********************************
   pip install --ignore-installed --upgrade tensorflow==2.5.0
   pip install --ignore-installed --upgrade tensorflow==2.5.0
@@ -38,6 +39,8 @@ GPU Support...
     Follow this link to download and install CUDA Toolkit 11.2
     Installation instructions can be found here
     !!! use custom install - do not install display drivers !!!  just cuda toolkit
+
+
 
 
 Create a new folder under a path of your choice and name it TensorFlow
@@ -81,9 +84,10 @@ Installation of the Object Detection API
   # From within TensorFlow/models/research/
   cp object_detection/packages/tf2/setup.py .
   python -m pip install --use-feature=2020-resolver .
-Test the installation    ************************************************************************
-  # From within TensorFlow/models/research/
-  python object_detection/builders/model_builder_tf2_test.py   
+
+Test the installation
+  # From within TensorFlow/models/research/            ********************
+  python object_detection/builders/model_builder_tf2_test.py     ********************
 
 -------------------------------------------
 CREATING THE CUSTOM OBJECT DETECTOR
@@ -118,5 +122,22 @@ here are the folders/filer shown in the above tree
 Partition 90/10 into images/train images/test
 
 Creating the Label Map
-TensorFlow requires a Label Map
-                                                                                         
+  TensorFlow requires a Label Map
+  Label map files have the extention .pbtxt and should be placed inside the training_demo/annotations folder.
+
+Create TensorFlow Records
+  cd into TensorFlow/scripts/preprocessing and run:
+  python generate_tfrecord.py -x C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/images/train -l C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/annotations/label_map.pbtxt -o C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/annotations/train.record
+  python generate_tfrecord.py -x C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/images/test -l C:/Users/sglvladi/Documents/Tensorflow2/workspace/training_demo/annotations/label_map.pbtxt -o C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/annotations/test.record
+
+Configure pre-trained model
+  From TensorFlow 2 Detection Model Zoo download a model (e.g.SSD ResNet50 V1 FPN 640x640)
+  extract ito training_demo/pre-trained-models
+  Under the training_demo/models create a new directory named my_ssd_resnet50_v1_fpn and copy the training_demo/pre-trained-models/ssd_resnet50_v1_fpn_640x640_coco17_tpu-8/pipeline.config file
+  Edits per the instructions...
+
+Training the model
+  Copy the TensorFlow/models/research/object_detection/model_main_tf2.py script and paste it straight into our training_demo folder.
+  cd inside the training_demo folder and run
+  python model_main_tf2.py --model_dir=models/my_ssd_resnet50_v1_fpn --pipeline_config_path=models/my_ssd_resnet50_v1_fpn/pipeline.config
+  IF PYTHON CRASHES ... probably due to low memory !!!  need >= 64GB
