@@ -31,17 +31,30 @@ create conda env, install TensorFlow:
   conda activate tensorflow   *********************************
   pip install --ignore-installed --upgrade tensorflow==2.5.0
   pip install --ignore-installed --upgrade tensorflow==2.5.0
-verify your installation:
+
+verify your installation (before CUDA)
   python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
 
 GPU Support...
+
   Install CUDA Toolkit
     Follow this link to download and install CUDA Toolkit 11.2
     Installation instructions can be found here
-    !!! use custom install - do not install display drivers !!!  just cuda toolkit
+    !!! on AWS Workspace - DO NOT install display drivers !!!  just cuda toolkit
+    !!! on AWS Workspace - DO NOT install to C: rather create folders on D: and install there
 
+  Install CUDNN
+    extract the zip file - and copy "cuda" under the toolkit/cuda/11 folder
 
+  Add PATHs
+    <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin
+    <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\libnvvp
+    <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\include
+    <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\extras\CUPTI\lib64
+    <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\cuda\bin
 
+verify your installation (after CUDA)
+  python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
 
 Create a new folder under a path of your choice and name it TensorFlow
   cd TensorFlow
