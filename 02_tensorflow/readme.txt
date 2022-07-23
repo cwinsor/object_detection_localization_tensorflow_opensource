@@ -21,13 +21,25 @@ INSTALLATION
 https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#tensorflow-installation
 --->with specific notes below <---
 
+If existing environment...
+
+
+Create new environment...
 create conda env, install TensorFlow:
   conda create -n tensorflow pip python=3.9
-  conda activate tensorflow
+  conda activate tensorflow   *********************************
+  pip install --ignore-installed --upgrade tensorflow==2.5.0
   pip install --ignore-installed --upgrade tensorflow==2.5.0
 verify your installation:
   python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
-<gpu support - I skipped this>
+
+GPU Support...
+  Install CUDA Toolkit
+    Follow this link to download and install CUDA Toolkit 11.2
+    Installation instructions can be found here
+    !!! use custom install - do not install display drivers !!!  just cuda toolkit
+
+
 Create a new folder under a path of your choice and name it TensorFlow
   cd TensorFlow
   git clone https://github.com/tensorflow/models
@@ -69,9 +81,9 @@ Installation of the Object Detection API
   # From within TensorFlow/models/research/
   cp object_detection/packages/tf2/setup.py .
   python -m pip install --use-feature=2020-resolver .
-Test the installation
+Test the installation    ************************************************************************
   # From within TensorFlow/models/research/
-  python object_detection/builders/model_builder_tf2_test.py
+  python object_detection/builders/model_builder_tf2_test.py   
 
 -------------------------------------------
 CREATING THE CUSTOM OBJECT DETECTOR
@@ -107,3 +119,4 @@ Partition 90/10 into images/train images/test
 
 Creating the Label Map
 TensorFlow requires a Label Map
+                                                                                         
