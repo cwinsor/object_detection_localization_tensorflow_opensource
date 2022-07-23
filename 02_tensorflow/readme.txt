@@ -17,7 +17,7 @@ paperspace
 
 
 -------------------------------------------
-INSTALLATION (each time marked "********************")
+INSTALLATION (every time marked with "********************")
 https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#tensorflow-installation
 with additional specific notes below
 
@@ -33,7 +33,7 @@ create conda env, install TensorFlow:
   pip install --ignore-installed --upgrade tensorflow==2.5.0
 
 verify your installation (before CUDA)
-  python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
+  python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"    *********************
 
 GPU Support...
 
@@ -54,7 +54,9 @@ GPU Support...
     <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\cuda\bin
 
 verify your installation (after CUDA)
-  python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"
+  python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"    *********************
+
+TensorFlow Object Detection API Installation:
 
 Create a new folder under a path of your choice and name it TensorFlow
   cd TensorFlow
@@ -78,25 +80,31 @@ Create a new folder under a path of your choice and name it TensorFlow
 You should now have a single folder named models under your TensorFlow folder, wh
 Install protobuf
   <hmm - the protobuf did not work in the end.  I ended up coming back to this step at the end and using...>
-    pip install protobuf==3.20
-  <the steps that did not work were...>
+    pip uninstall protobuf
+   conda  install protobuf
+    which gave me protobuf-3.20.1
+  <the following did not work...>
+    pip install protobuf<3.20    
+    pip install protobuf==3.20 <- this was incompitible
+  <other steps that did not work were...>
     get protobuf .zip from https://github.com/google/protobuf/releases
     <note I'm on an AWS Workspace host... so I put that at D:\
     unzip resulting in folder D:\protoc-21.3-win64
     Add <PATH_TO_PB>\bin to your Path environment variable
     open a new PowerShell
     # From within TensorFlow/models/research/
-    protoc object_detection/protos/*.proto --python_out=.
+    protoc object_detection/protos/*.proto --python_out=.      *********************
+
 COCO Installation
-  pip install cython
-  pip install git+https://github.com/philferriere/cocoapi.git#subdirectory=PythonAPI
+  pip install cython    *********************
+  pip install git+https://github.com/philferriere/cocoapi.git#subdirectory=PythonAPI    *********************
   Install (or confirm that it is already installed) Visual C++ 2015 build tools must be installed and on your path.
   get that at https://go.microsoft.com/fwlink/?LinkId=691126 or at https://visualstudio.microsoft.com/visual-cpp-build-tools/
   (you need to 'check' the Visual Studio checkbox...)
 Installation of the Object Detection API
   # From within TensorFlow/models/research/
   cp object_detection/packages/tf2/setup.py .
-  python -m pip install --use-feature=2020-resolver .
+  python -m pip install --use-feature=2020-resolver .   ********************
 
 Test the installation
   # From within TensorFlow/models/research/            ********************
@@ -140,8 +148,8 @@ Creating the Label Map
 
 Create TensorFlow Records
   cd into TensorFlow/scripts/preprocessing and run:
-  python generate_tfrecord.py -x C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/images/train -l C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/annotations/label_map.pbtxt -o C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/annotations/train.record
-  python generate_tfrecord.py -x C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/images/test -l C:/Users/sglvladi/Documents/Tensorflow2/workspace/training_demo/annotations/label_map.pbtxt -o C:/Users/sglvladi/Documents/Tensorflow/workspace/training_demo/annotations/test.record
+  scripts> python generate_tfrecord.py -x ..\workspace\training_demo\images\train\ -l ..\workspace\training_demo\annotations\label_map.pbtxt -o ..\workspace\training_demo\annotations\train.record
+  scripts> python generate_tfrecord.py -x ..\workspace\training_demo\images\test\ -l ..\workspace\training_demo\annotations\label_map.pbtxt -o ..\workspace\training_demo\annotations\test.record
 
 Configure pre-trained model
   From TensorFlow 2 Detection Model Zoo download a model (e.g.SSD ResNet50 V1 FPN 640x640)
@@ -150,7 +158,7 @@ Configure pre-trained model
   Edits per the instructions...
 
 Training the model
-  Copy the TensorFlow/models/research/object_detection/model_main_tf2.py script and paste it straight into our training_demo folder.
+  Copy the TensorFlow/models/research/object_detection/model_main_tf2.py script and paste it straight into \TensorFlow\workspace\training_demo
   cd inside the training_demo folder and run
   python model_main_tf2.py --model_dir=models/my_ssd_resnet50_v1_fpn --pipeline_config_path=models/my_ssd_resnet50_v1_fpn/pipeline.config
   IF PYTHON CRASHES ... probably due to low memory !!!  need >= 64GB
