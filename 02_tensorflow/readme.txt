@@ -1,4 +1,4 @@
-where I'm at...
+
 https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html
 
 The example uses:
@@ -115,6 +115,8 @@ Install protobuf
     open a new PowerShell
     # From within TensorFlow/models/research/
     protoc object_detection/protos/*.proto --python_out=.      *********************
+    OR - note the "Important" in the site...
+    Get-ChildItem object_detection/protos/*.proto | foreach {protoc "object_detection/protos/$($_.Name)" --python_out=.}
 
 COCO Installation
   pip install cython    *********************
