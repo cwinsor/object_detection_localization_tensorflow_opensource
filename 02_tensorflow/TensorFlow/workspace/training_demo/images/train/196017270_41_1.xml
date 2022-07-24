@@ -1,7 +1,7 @@
 <annotation>
 	<folder>images</folder>
-	<filename>196017270_41_1.tif</filename>
-	<path>D:\Users\CHRIS\Documents\code_obj_det_tf_open\object_detection_localization_tensorflow_opensource\02_tensorflow\TensorFlow\workspace\training_demo\images\196017270_41_1.tif</path>
+	<filename>196017270_41_1.png</filename>
+	<path>D:\Users\CHRIS\Documents\code_obj_det_tf_open\object_detection_localization_tensorflow_opensource\02_tensorflow\TensorFlow\workspace\training_demo\images\train\196017270_41_1.png</path>
 	<source>
 		<database>Unknown</database>
 	</source>
@@ -629,8 +629,8 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>1557</xmin>
-			<ymin>2001</ymin>
+			<xmin>1551</xmin>
+			<ymin>1997</ymin>
 			<xmax>1945</xmax>
 			<ymax>2306</ymax>
 		</bndbox>

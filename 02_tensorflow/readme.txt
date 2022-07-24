@@ -28,7 +28,7 @@ Create new environment...
 create conda env, install TensorFlow:
   conda create -n tensorflow pip python=3.9
 
-  conda activate tensorflow   *********************************
+  conda activate tensorflow   *********************************++
   pip install --ignore-installed --upgrade tensorflow==2.5.0
   pip install --ignore-installed --upgrade tensorflow==2.5.0
 
@@ -54,7 +54,7 @@ GPU Support...
     <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\cuda\bin
 
 verify your installation (after CUDA)
-  python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"    *********************
+  python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"    *********************++
 
 TensorFlow Object Detection API Installation:
 
@@ -114,15 +114,7 @@ Test the installation
 CREATING THE CUSTOM OBJECT DETECTOR
 https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html
 
-Preparing the Dataset
-  Install LabelImg
-    pip install labelImg
-
-Gather images (100 to 500)
-use labelImg to label
-copy into test/train 90/10
-Goal is create "tf records"
-setup configuration file to train
+The goal is TensorFlow "records" file by labeling objects in the image.
 
 somehelpercode from racoon object detection "dat tran" "xml-to-csv"
 https://www.youtube.com/watch?v=W0sRoho8COI
@@ -130,7 +122,7 @@ https://github.com/datitran/raccoon_dataset
 https://towardsdatascience.com/how-to-train-your-own-object-detector-with-tensorflows-object-detector-api-bec72ecfe1d9
 
 back to the tensorflow instructions...
-here are the folders/filer shown in the above tree
+here are the folders/files
   annotations: This folder will be used to store all *.csv files and the respective TensorFlow *.record files, which contain the list of annotations for our dataset images.
   exported-models: This folder will be used to store exported versions of our trained model(s).
   images: This folder contains a copy of all the images in our dataset, as well as the respective *.xml files produced for each one, once labelImg is used to annotate objects.
@@ -140,25 +132,46 @@ here are the folders/filer shown in the above tree
   pre-trained-models: This folder will contain the downloaded pre-trained models, which shall be used as a starting checkpoint for our training jobs.
   README.md: This is an optional file which provides some general information regarding the training conditions of our model. It is not used by TensorFlow in any way, but it generally helps when you have a few training folders and/or you are revisiting a trained model after some time.
 
-Partition 90/10 into images/train images/test
+PREPARING THE DATASET
+  Install LabelImg
+    pip install labelImg
 
-Creating the Label Map
-  TensorFlow requires a Label Map
+Gather images (100 to 500)
+Convert from .tif to .png
+use to_png.py and setup_win.ps1 in workspace\training_demo\images
+
+Annotate Images
+  use labelImg for this
+  You will thus have .png and .xml
+
+Partition the Dataset
+  Partition 90/10 and copy .png and .xml into images/train images/test
+
+Create the Label Map
+  TensorFlow requires a Label Map.  This is a stupid file which maps between numeric class values and 'friendly' name
   Label map files have the extention .pbtxt and should be placed inside the training_demo/annotations folder.
 
 Create TensorFlow Records
+  we are converting .xml to .record  (object locations)
   cd into TensorFlow/scripts/preprocessing and run:
   scripts> python generate_tfrecord.py -x ..\workspace\training_demo\images\train\ -l ..\workspace\training_demo\annotations\label_map.pbtxt -o ..\workspace\training_demo\annotations\train.record
   scripts> python generate_tfrecord.py -x ..\workspace\training_demo\images\test\ -l ..\workspace\training_demo\annotations\label_map.pbtxt -o ..\workspace\training_demo\annotations\test.record
 
-Configure pre-trained model
-  From TensorFlow 2 Detection Model Zoo download a model (e.g.SSD ResNet50 V1 FPN 640x640)
+CONFIGURE A TRAINING JOB
+
+Download pre-trained model
+  get from  TensorFlow 2 Detection Model Zoo (e.g.SSD ResNet50 V1 FPN 640x640)
   extract ito training_demo/pre-trained-models
-  Under the training_demo/models create a new directory named my_ssd_resnet50_v1_fpn and copy the training_demo/pre-trained-models/ssd_resnet50_v1_fpn_640x640_coco17_tpu-8/pipeline.config file
+
+Configure training pipeline
+  Under the training_demo/models create a new directory named my_ssd_resnet50_v1_fpn
+  and copy the training_demo/pre-trained-models/ssd_resnet50_v1_fpn_640x640_coco17_tpu-8/pipeline.config file
   Edits per the instructions...
 
 Training the model
-  Copy the TensorFlow/models/research/object_detection/model_main_tf2.py script and paste it straight into \TensorFlow\workspace\training_demo
+  Copy the TensorFlow/models/research/object_detection/model_main_tf2.py script 
+  and paste it straight into \TensorFlow\workspace\training_demo
   cd inside the training_demo folder and run
+  *******************+++
   python model_main_tf2.py --model_dir=models/my_ssd_resnet50_v1_fpn --pipeline_config_path=models/my_ssd_resnet50_v1_fpn/pipeline.config
   IF PYTHON CRASHES ... probably due to low memory !!!  need >= 64GB
