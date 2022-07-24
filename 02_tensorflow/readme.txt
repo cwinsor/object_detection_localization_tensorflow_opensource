@@ -15,6 +15,12 @@ Good tutorial video
 https://www.youtube.com/watch?v=K_mFnvzyLvc&t=553s
 paperspace
 
+-------------------------------------------
+JUST RUN EXISTING
+cd D:\Users\CHRIS\Documents\code_obj_det_tf_open\object_detection_localization_tensorflow_opensource\02_tensorflow\TensorFlow\workspace\training_demo
+conda activate tensorflow
+python model_main_tf2.py --model_dir=models/my_ssd_resnet50_v1_fpn --pipeline_config_path=models/my_ssd_resnet50_v1_fpn/pipeline.config
+
 
 -------------------------------------------
 INSTALLATION (every time marked with "********************")
@@ -46,12 +52,27 @@ GPU Support...
   Install CUDNN
     extract the zip file - and copy "cuda" under the toolkit/cuda/11 folder
 
-  Add PATHs
+  Add PATHs to environment PATH variable
     <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin
     <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\libnvvp
     <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\include
     <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\extras\CUPTI\lib64
     <INSTALL_PATH>\NVIDIA GPU Computing Toolkit\CUDA\v11.2\cuda\bin
+
+D:\Users\CHRIS\Anaconda3\envs\tensorflow;D:\Users\CHRIS\Anaconda3\envs\tensorflow\Library\mingw-w64\bin;D:\Users\CHRIS\Anaconda3\envs\tensorflow\Library\usr\bin;D:\Users\CHRIS\Anaconda3\envs\tensorflow\Library\bin;D:\Users\CHRIS\Anaconda3\envs\tensorflow\Scripts;D:\Users\CHRIS\Anaconda3\envs\tensorflow\bin;D:\Users\CHRIS\Anaconda3\condabin;D:\cuda_toolkit\bin;D:\cuda_toolkit\libnvvp;D:\cuda_toolkit\include;D:\cuda_toolkit\extras\CUPTI\lib64;D:\cuda_toolkit\cuda\bin;D:\protoc-21.3-win64\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\Amazon\cfn-bootstrap;C:\Program Files\Git\cmd;C:\Program Files\NVIDIA Corporation\Nsight Compute 2020.3.1;D:\Users\CHRIS\AppData\Local\Microsoft\WindowsApps;.;D:\Users\CHRIS\AppData\Local\Programs\Microsoft VS Code\bin
+
+GOT:  error: Can't find libdevice directory ${CUDA_DIR}/nvvm/libdevice
+FIX: https://stackoverflow.com/questions/72499414/i-got-an-error-about-error-cant-find-libdevice-directory-cuda-dir-nvvm-libd
+I had the same problem and just fixed it. The library can't find the folder even if you set the "CUDA_DIR" because it's not using that variable or any other I tried. This post is helpful in understanding the issue. The only solution I was able to find is just copying the required files.
+Steps for a quick fix:
+Find where your CUDA nvvm is installed (for me it is "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.6").
+Find the working directory for your script (the environment or the directory you are running the script in).
+Copy the entire nvvm folder into the working directory and your script should work.
+This is not a great solution but until someone else posts a answer you can at least run your code.
+
+
+
+
 
 verify your installation (after CUDA)
   python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))"    *********************++
@@ -171,7 +192,7 @@ Configure training pipeline
 Training the model
   Copy the TensorFlow/models/research/object_detection/model_main_tf2.py script 
   and paste it straight into \TensorFlow\workspace\training_demo
-  cd inside the training_demo folder and run
+  cd 02_tensorflow\TensorFlow\workspace\training_demo  and run
   *******************+++
   python model_main_tf2.py --model_dir=models/my_ssd_resnet50_v1_fpn --pipeline_config_path=models/my_ssd_resnet50_v1_fpn/pipeline.config
   IF PYTHON CRASHES ... probably due to low memory !!!  need >= 64GB
