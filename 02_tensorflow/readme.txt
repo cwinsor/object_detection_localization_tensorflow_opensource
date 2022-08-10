@@ -29,6 +29,8 @@ with additional specific notes below
 
 If existing environment...
 
+(set prompt)
+Function prompt{"PS: "}
 
 Create new environment...
 create conda env, install TensorFlow:
